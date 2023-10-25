@@ -34,8 +34,8 @@ def main(page: ft.Page):
             os.mkdir(f'{folder.value}\\zips')
         column.visible = True
         donetext.visible = False
-        allsize1, allsize2 = 0, 0
         count1, count2 = 1, 1
+        allsize1, allsize2 = 0, 0
         total_size = 0
         current_size = 0
         zip1 = zipfile.ZipFile(f'{folder.value}\\zips\\IT ({count1}).zip', 'w')
@@ -43,31 +43,34 @@ def main(page: ft.Page):
 
         for file in os.listdir(folder.value):
             if file[-3:] == "pdf":
-                total_size += os.path.getsize(f'{folder.value}\\{file}')
+                total_size += os.path.getsize(f'{folder.value}\\{file}') / 1000000
 
         for file in os.listdir(folder.value):
             if file[-3:] == "pdf":
-                current_size += os.path.getsize(f'{folder.value}\\zips\\IT ({count1}).zip')
-                current_size += os.path.getsize(f'{folder.value}\\zips\\Левитская ({count2}).zip')
-                percent = current_size / total_size
-                pb.value = percent
+                current_size += os.path.getsize(f'{folder.value}\\zips\\IT ({count1}).zip') / 1000000
+                current_size += os.path.getsize(f'{folder.value}\\zips\\Левитская ({count2}).zip') / 1000000
+                pb.value = current_size / total_size
                 page.update()
                 if '-Л_' not in file:
-                    size1 = os.path.getsize(f'{folder.value}\\{file}')
+                    size1 = os.path.getsize(f'{folder.value}\\{file}') / 1000000
                     allsize1 += size1
-                    if allsize1 < 600000000:
+                    if allsize1 < int(field.value):
                         zip1.write(f'{folder.value}\\{file}', os.path.basename(f'{folder.value}\\{file}'))
                     else:
                         count1 += 1
+                        allsize1 = 0
                         zip1.close()
+                        zip1 = zipfile.ZipFile(f'{folder.value}\\zips\\IT ({count1}).zip', 'w')
                 if '-Л_' in file:
-                    size2 = os.path.getsize(f'{folder.value}\\{file}')
+                    size2 = os.path.getsize(f'{folder.value}\\{file}') / 1000000
                     allsize2 += size2
-                    if allsize1 < 600000000:
+                    if allsize2 < int(field.value):
                         zip2.write(f'{folder.value}\\{file}', os.path.basename(f'{folder.value}\\{file}'))
                     else:
                         count2 += 1
+                        allsize2 = 0
                         zip2.close()
+                        zip2 = zipfile.ZipFile(f'{folder.value}\\zips\\Левитская ({count2}).zip', 'w')
 
         page.add(donetext)
         column.visible = False
@@ -75,12 +78,18 @@ def main(page: ft.Page):
         page.update()
 
     page.theme = theme.Theme(color_scheme_seed="orange")
+    field = ft.TextField(label="Максимальный вес zip (Mb)", value="600")
     page.update()
     page.window_width = 500
     page.window_height = 500
     column.visible = False
     donetext.visible = False
     page.add(
+        ft.Row(
+            [
+                field
+            ]
+        ),
         ft.Row(
             [
                 ft.ElevatedButton(
