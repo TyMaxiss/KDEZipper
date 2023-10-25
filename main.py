@@ -27,17 +27,16 @@ def main(page: ft.Page):
             folder.value = 'Вы не выбрали папку!'
             folder.update()
             return
+        column.visible = True
+        donetext.visible = False
         if os.path.exists(f'{folder.value}\\zips'):
             shutil.rmtree(f'{folder.value}\\zips')
             os.mkdir(f'{folder.value}\\zips')
         else:
             os.mkdir(f'{folder.value}\\zips')
-        column.visible = True
-        donetext.visible = False
         count1, count2 = 1, 1
-        allsize1, allsize2 = 0, 0
         total_size = 0
-        current_size = 0
+
         zip1 = zipfile.ZipFile(f'{folder.value}\\zips\\IT ({count1}).zip', 'w')
         zip2 = zipfile.ZipFile(f'{folder.value}\\zips\\Левитская ({count2}).zip', 'w')
 
@@ -47,30 +46,33 @@ def main(page: ft.Page):
 
         for file in os.listdir(folder.value):
             if file[-3:] == "pdf":
-                current_size += os.path.getsize(f'{folder.value}\\zips\\IT ({count1}).zip') / 1000000
-                current_size += os.path.getsize(f'{folder.value}\\zips\\Левитская ({count2}).zip') / 1000000
+                current_size = 0
+                for sizeAllZips in os.listdir(f'{folder.value}\\zips'):
+                    current_size += os.path.getsize(f'{folder.value}\\zips\\{sizeAllZips}') / 1000000
                 pb.value = current_size / total_size
                 page.update()
                 if '-Л_' not in file:
-                    size1 = os.path.getsize(f'{folder.value}\\{file}') / 1000000
-                    allsize1 += size1
-                    if allsize1 < int(field.value):
+                    allsize1 = os.path.getsize(f'{folder.value}\\zips\\IT ({count1}).zip') / 1000000
+                    if (allsize1 + os.path.getsize(f'{folder.value}\\{file}') / 1000000) < int(field.value):
                         zip1.write(f'{folder.value}\\{file}', os.path.basename(f'{folder.value}\\{file}'))
+                        current_size += os.path.getsize(f'{folder.value}\\zips\\IT ({count1}).zip') / 1000000
                     else:
                         count1 += 1
-                        allsize1 = 0
                         zip1.close()
                         zip1 = zipfile.ZipFile(f'{folder.value}\\zips\\IT ({count1}).zip', 'w')
+                        zip1.write(f'{folder.value}\\{file}', os.path.basename(f'{folder.value}\\{file}'))
+                        current_size += os.path.getsize(f'{folder.value}\\zips\\IT ({count1}).zip') / 1000000
                 if '-Л_' in file:
-                    size2 = os.path.getsize(f'{folder.value}\\{file}') / 1000000
-                    allsize2 += size2
-                    if allsize2 < int(field.value):
+                    allsize2 = os.path.getsize(f'{folder.value}\\zips\\Левитская ({count2}).zip') / 1000000
+                    if (allsize2 + os.path.getsize(f'{folder.value}\\{file}') / 1000000) < int(field.value):
                         zip2.write(f'{folder.value}\\{file}', os.path.basename(f'{folder.value}\\{file}'))
+                        current_size += os.path.getsize(f'{folder.value}\\zips\\Левитская ({count2}).zip') / 1000000
                     else:
                         count2 += 1
-                        allsize2 = 0
                         zip2.close()
                         zip2 = zipfile.ZipFile(f'{folder.value}\\zips\\Левитская ({count2}).zip', 'w')
+                        zip2.write(f'{folder.value}\\{file}', os.path.basename(f'{folder.value}\\{file}'))
+                        current_size += os.path.getsize(f'{folder.value}\\zips\\Левитская ({count2}).zip') / 1000000
 
         page.add(donetext)
         column.visible = False

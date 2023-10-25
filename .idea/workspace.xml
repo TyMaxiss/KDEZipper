@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="333d10d9-a092-45b6-9ad0-368d88d1fa4d" name="Changes" comment="">
+    <list default="true" id="333d10d9-a092-45b6-9ad0-368d88d1fa4d" name="Changes" comment="add field of size zips;&#10;fix some bugs">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -25,6 +26,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/Users/1/PycharmProjects/designZIP"
   }
@@ -61,6 +63,14 @@
       <option name="presentableId" value="Default" />
       <updated>1696493941831</updated>
     </task>
+    <task id="LOCAL-00001" summary="add field of size zips;&#10;fix some bugs">
+      <created>1698226300234</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1698226300234</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -73,5 +83,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add field of size zips;&#10;fix some bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="add field of size zips;&#10;fix some bugs" />
   </component>
 </project>
